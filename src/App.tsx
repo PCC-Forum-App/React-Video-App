@@ -1,28 +1,8 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import SearchIcon from "./search.svg";
+import SearchIcon from "./assets/search.svg";
 import VideoCard from "./VideoCard";
-import MovieCard from "./MovieCard";
-
-const API_URL = "http://www.omdbapi.com/?i=tt3896198&apikey=7313d1fb";
-const myVideos = [
-  {
-    Title: "Flexbox Tutorial",
-    Channel: "Kenji Longid",
-    Thumbnail: "src/assets/CSS Team Thumbnail.png",
-    Type: "YouTube Video",
-    Year: "2024",
-    Link: "https://www.youtube.com/watch?v=TohziRysKKY",
-  },
-  {
-    Title: "HTML Tutorial",
-    Channel: "Leane Che",
-    Thumbnail: "src/assets/HTML Team Thumbnail.png",
-    Type: "YouTube Video",
-    Year: "2024",
-    Link: "https://youtu.be/Z1neJhEEoFA?si=24-LVC81Tyxw51z9",
-  },
-];
+import myVideos from "./data";
 
 interface Video {
   Title: string;
@@ -33,7 +13,6 @@ interface Video {
 }
 
 function App() {
-  const [movies, setMovies] = useState([]);
 
   const [videos, setVideos] = useState<Video[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -46,12 +25,7 @@ function App() {
     setVideos(filteredVideos);
   };
 
-  const searchMovies = async (title: String) => {
-    const response = await fetch(`${API_URL}&s=${title}`);
-    const data = await response.json();
-
-    setMovies(data.Search);
-  };
+ 
 
   useEffect(() => {
     console.log("effect called");
@@ -87,18 +61,6 @@ function App() {
       ) : (
         <div className="container">Nothing here</div>
       )}
-
-      {/* {movies?.length > 0 ? (
-        <div className="container">
-          {movies.map((movie) => (
-            <MovieCard movie={movie}></MovieCard>
-          ))}
-        </div>
-      ) : (
-        <div className="empty">
-          <h2>No Movies Found</h2>
-        </div>
-      )} */}
     </div>
   );
 }

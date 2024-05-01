@@ -12,7 +12,7 @@ interface Props {
 const VideoCard = ({ videoCard }: Props) => {
   return (
     <a className="movie" href={videoCard.Link} target="_blank">
-      <div>
+      <div className= "movie">
         <p>{videoCard.Title}</p>
       </div>
       <img src={videoCard.Thumbnail} alt={videoCard.Title} />
