@@ -2,26 +2,26 @@ import React from "react";
 
 interface Props {
   videoCard: {
-    Title: String;
-    Channel?: String;
-    Link: String;
+    Title: string;
+    Channel?: string;
+    Link: string;
     Thumbnail?: string;
   };
 }
 
 const VideoCard = ({ videoCard }: Props) => {
   return (
-    <div className="movie">
+    <a className="movie" href={videoCard.Link} target="_blank">
       <div>
         <p>{videoCard.Title}</p>
       </div>
-      <img src={videoCard.Thumbnail} alt="" />
+      <img src={videoCard.Thumbnail} alt={videoCard.Title} />
       <div></div>
       <div>
         <span>{videoCard.Channel}</span>
         <h3>{videoCard.Title}</h3>
       </div>
-    </div>
+    </a>
   );
 };
 

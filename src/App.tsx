@@ -8,7 +8,7 @@ const API_URL = "http://www.omdbapi.com/?i=tt3896198&apikey=7313d1fb";
 const myVideos = [
   {
     Title: "Flexbox Tutorial",
-    Channel: "Aung",
+    Channel: "Kenji Longid",
     Thumbnail: "src/assets/CSS Team Thumbnail.png",
     Type: "YouTube Video",
     Year: "2024",
@@ -16,7 +16,7 @@ const myVideos = [
   },
   {
     Title: "HTML Tutorial",
-    Channel: "Zaw lay",
+    Channel: "Leane Che",
     Thumbnail: "src/assets/HTML Team Thumbnail.png",
     Type: "YouTube Video",
     Year: "2024",
@@ -64,9 +64,12 @@ function App() {
 
       <div className="search">
         <input
-          placeholder="Search For Movies"
+          placeholder="Search For Videos"
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => {
+            setSearchTerm(e.target.value)
+            searchVideos(e.target.value)
+          }}
         />
         <img
           src={SearchIcon}
