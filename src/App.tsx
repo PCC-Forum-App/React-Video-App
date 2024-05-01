@@ -55,7 +55,7 @@ function App() {
 
   useEffect(() => {
     console.log("effect called");
-    searchVideos("Tuto");
+    searchVideos("Tutorial");
   }, []);
 
   return (
