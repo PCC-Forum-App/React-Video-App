@@ -32,10 +32,65 @@ const App: React.FC = () => {
     searchVideos(searchTerm);
   }, [searchTerm, filter]);
 
+  //light mode dark mode
+  const lightIcon = document.getElementById("light-icon");
+  const darkIcon = document.getElementById("dark-icon");
+
+  let darkMode = window.matchMedia("(prefer-color-scheme: dark)").matches;
+
+  if (darkMode) {
+    document.body.classList.add("dark-mode");
+    darkIcon?.setAttribute("display", "none");
+  } else {
+    lightIcon?.setAttribute("display", "none");
+  }
+
+  const toggleDarkMode = () => {
+    darkMode = !darkMode;
+
+    document.body.classList.toggle("dark-mode");
+
+    if (darkMode) {
+      lightIcon?.setAttribute("display", "block");
+      darkIcon?.setAttribute("display", "none");
+    } else {
+      lightIcon?.setAttribute("display", "none");
+      darkIcon?.setAttribute("display", "block");
+    }
+  };
+
   return (
     <div className="app">
       <h1>Learn With Us</h1>
+      <button onClick={() => toggleDarkMode()}>
+        <svg width="30" height="30" id="light-icon">
+          <circle cx="15" cy="15" r="6" fill="rgba(249, 211, 180, 1)" />
+          <line
+            id="ray"
+            stroke="rgba(249, 211, 180, 1)"
+            stroke-width="2"
+            stroke-linecap="round"
+            x1="15"
+            y1="1"
+            x2="15"
+            y2="15"
+          ></line>
 
+          <use href="#ray" transform="rotate(45 15 15)" />
+          <use href="#ray" transform="rotate(90 15 15)" />
+          <use href="#ray" transform="rotate(135 15 15)" />
+          <use href="#ray" transform="rotate(180 15 15)" />
+          <use href="#ray" transform="rotate(225 15 15)" />
+          <use href="#ray" transform="rotate(270 15 15)" />
+          <use href="#ray" transform="rotate(325 15 15)" />
+        </svg>
+        <svg width="30" height="30" id="dark-icon">
+          <path
+            fill="#be1e2d"
+            d="M 23, 5 A 12 12 0 1 0 23, 25 A 12 12 0 0 1 23, 5"
+          />
+        </svg>
+      </button>
       <div className="search">
         <input
           placeholder="Search For Videos"
