@@ -16,7 +16,7 @@ body {
   font-family: var(--font-roboto);
   background: linear-gradient(
     -30deg,
-    rgb(236, 206, 206) 20%,
+    rgb(255, 255, 255) 20%,
     rgb(243, 233, 233) 100%
   );
 }
@@ -33,7 +33,7 @@ body {
 h1 {
   font-size: 3rem;
   letter-spacing: 0.9px;
-  background: #be1e2d;
+  background: #000000;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
