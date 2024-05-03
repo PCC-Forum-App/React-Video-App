@@ -198,6 +198,25 @@ h1 {
   opacity: 1;
 }
 
+.sortButton{
+  background-color: #be1e2d;
+  color: white;
+  border-radius: 20px;
+  padding: 8px 16px;
+  margin-right: 10px; 
+  font-size: 15px;
+}
+
+.clickedBtn{
+  background-color: white;
+  color: #be1e2d;
+
+}
+
+.sortButton:hover{
+  cursor: pointer;
+}
+
 @media screen and (max-width: 600px) {
   .app {
     padding: 4rem 2rem;
