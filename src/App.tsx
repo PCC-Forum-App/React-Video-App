@@ -16,6 +16,12 @@ const App: React.FC = () => {
   const [videos, setVideos] = useState<Video[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filter, setFilter] = useState<string | null>(null);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
+  //where was I gonna use this?
+  const [initalLoad, setInitialLoad] = useState<boolean>(true);
+
+  if(initalLoad)
+    document.body.classList.toggle("dark-mode");
 
   const searchVideos = (title: string) => {
     const filteredVideos = myVideos.filter(
@@ -32,28 +38,81 @@ const App: React.FC = () => {
     searchVideos(searchTerm);
   }, [searchTerm, filter]);
 
+  useEffect(() => {
+    const darkModeMediaQuery = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    );
+    //v This makes sure it does not do anything if there are no events
+    const updateDarkMode = (e: MediaQueryListEvent) => {
+      // setDarkMode(e.matches);
+      setInitialLoad(false);
+      // document.body.classList.toggle("dark-mode");
+      //without the if statement will struggle on window Media changes
+      // document.body.classList.toggle("dark-mode");
+      console.log("e.matches");
+      console.log(e.matches);
+      if (e.matches && !darkMode) {
+        // If system prefers dark mode and dark mode toggle is off, set dark mode
+        //!darkMode means its in darkmode by toggle
+        console.log("e.matches && !darkMode");
+        document.body.classList.toggle("dark-mode");
+        setDarkMode(true);
+      } else if (!e.matches && darkMode) {
+        // If system prefers light mode and dark mode toggle is on, set light mode
+        console.log("!e.matches && darkMode");
+        document.body.classList.toggle("dark-mode");
+        setDarkMode(true);
+      } else if (e.matches && darkMode) {
+        // If dark mode toggle is on regardless of system preference, set dark mode
+        console.log("e.matches && darkMode")
+        // document.body.classList.toggle("dark-mode");
+        // setDarkMode(true);
+        document.body.classList.toggle("dark-mode");
+        setDarkMode(true);
+      } else {
+        // If neither system prefers dark mode nor dark mode toggle is on, set light mode
+        console.log("!e.matches && !darkMode");
+        // document.body.classList.toggle("dark-mode");
+        setDarkMode(false);
+      }
+    };
+
+    darkModeMediaQuery.addEventListener("change", updateDarkMode);
+
+    return () => {
+      darkModeMediaQuery.removeEventListener("change", updateDarkMode);
+    };
+  },[]);
+
   //light mode dark mode
   const lightIcon = document.getElementById("light-icon");
   const darkIcon = document.getElementById("dark-icon");
 
-  let darkMode = window.matchMedia("(prefer-color-scheme: dark)").matches;
+  // let darkMode = window.matchMedia("(prefer-color-scheme: dark)").matches;
+  // let windowsDarkMode = {window.matchMedia("(prefer-color-scheme: dark)").matches};
+  // setDarkMode(window.matchMedia("(prefer-color-scheme: dark)").matches);
 
   if (darkMode) {
-    document.body.classList.add("dark-mode");
+    lightIcon?.setAttribute("display", "block");
     darkIcon?.setAttribute("display", "none");
   } else {
     lightIcon?.setAttribute("display", "none");
+    darkIcon?.setAttribute("display", "block");
   }
-
+  //lightIcon is set to none
   const toggleDarkMode = () => {
-    darkMode = !darkMode;
-
+    // darkMode = !darkMode;
+    // setDarkMode((prevDarkMode) => !prevDarkMode);
+    // setInitialLoad(false);
+    // document.body.classList.toggle("dark-mode");
+    // document.body.classList.toggle("dark-mode");
     document.body.classList.toggle("dark-mode");
-
     if (darkMode) {
+      setDarkMode(false);
       lightIcon?.setAttribute("display", "block");
       darkIcon?.setAttribute("display", "none");
     } else {
+      setDarkMode(true);
       lightIcon?.setAttribute("display", "none");
       darkIcon?.setAttribute("display", "block");
     }
@@ -107,19 +166,31 @@ const App: React.FC = () => {
       <div className="filter-buttons">
         <button
           className={`sortButton${filter === null ? " clickedBtn" : ""}`}
-          onClick={() => setFilter(null)}
+          onClick={() => {
+            setFilter(null);
+            setDarkMode(darkMode);
+            setInitialLoad(false);
+          }}
         >
           All
         </button>
         <button
           className={`sortButton${filter === "Frontend" ? " clickedBtn" : ""}`}
-          onClick={() => setFilter("Frontend")}
+          onClick={() => {
+            setFilter("Frontend");
+            setDarkMode(darkMode);
+            setInitialLoad(false);
+          }}
         >
           Frontend
         </button>
         <button
           className={`sortButton${filter === "Backend" ? " clickedBtn" : ""}`}
-          onClick={() => setFilter("Backend")}
+          onClick={() => {
+            setFilter("Backend");
+            setDarkMode(darkMode);
+            setInitialLoad(false);
+          }}
         >
           Backend
         </button>
