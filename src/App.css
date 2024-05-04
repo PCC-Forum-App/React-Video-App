@@ -197,6 +197,25 @@ rn will hard code */
   .movie:hover div:nth-of-type(3) {
     background-color: transparent;
   }
+
+  .sortButton{
+    background: rgba(249, 211, 180, 1); 
+    color: black;
+    border-radius: 20px;
+    padding: 8px 16px;
+    margin-right: 10px; 
+    font-size: 15px;
+  }
+  
+  .clickedBtn{
+    background-color: black;
+    color: rgba(249, 211, 180, 1);
+  
+  }
+  
+  .sortButton:hover{
+    cursor: pointer;
+  }
 }
 
 button{
