@@ -61,7 +61,7 @@ const App: React.FC = () => {
 
   return (
     <div className="app">
-      <h1>Learn With Us</h1>
+      <h1>Knowledge Nexus</h1>
       <button onClick={() => toggleDarkMode()}>
         <svg width="30" height="30" id="light-icon">
           <circle cx="15" cy="15" r="6" fill="rgba(249, 211, 180, 1)" />
