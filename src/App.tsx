@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useSyncExternalStore } from "react";
 import "./App.css";
 import SearchIcon from "./assets/search.svg";
 import VideoCard from "./VideoCard";
@@ -17,11 +17,9 @@ const App: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filter, setFilter] = useState<string | null>(null);
   const [darkMode, setDarkMode] = useState<boolean>(false);
+  const [lightMode, setLightMode] = useState<boolean>(true);
   //where was I gonna use this?
-  const [initalLoad, setInitialLoad] = useState<boolean>(true);
-
-  if(initalLoad)
-    document.body.classList.toggle("dark-mode");
+  const [listenToWindowMedia, setListenToWindowMedia] = useState<boolean>(true);
 
   const searchVideos = (title: string) => {
     const filteredVideos = myVideos.filter(
@@ -39,58 +37,69 @@ const App: React.FC = () => {
   }, [searchTerm, filter]);
 
   useEffect(() => {
-    const darkModeMediaQuery = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    );
-    //v This makes sure it does not do anything if there are no events
-    const updateDarkMode = (e: MediaQueryListEvent) => {
-      // setDarkMode(e.matches);
-      setInitialLoad(false);
-      // document.body.classList.toggle("dark-mode");
-      //without the if statement will struggle on window Media changes
-      // document.body.classList.toggle("dark-mode");
-      console.log("e.matches");
-      console.log(e.matches);
-      if (e.matches && !darkMode) {
-        // If system prefers dark mode and dark mode toggle is off, set dark mode
-        //!darkMode means its in darkmode by toggle
-        console.log("e.matches && !darkMode");
-        document.body.classList.toggle("dark-mode");
+    //This locks down the media matching once the toggle button is used
+    if (listenToWindowMedia)
+    {
+      const darkOnInitial = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if(darkOnInitial)
+      {
+        console.log("darkOnInitial");
         setDarkMode(true);
-      } else if (!e.matches && darkMode) {
-        // If system prefers light mode and dark mode toggle is on, set light mode
-        console.log("!e.matches && darkMode");
-        document.body.classList.toggle("dark-mode");
-        setDarkMode(true);
-      } else if (e.matches && darkMode) {
-        // If dark mode toggle is on regardless of system preference, set dark mode
-        console.log("e.matches && darkMode")
-        // document.body.classList.toggle("dark-mode");
-        // setDarkMode(true);
-        document.body.classList.toggle("dark-mode");
-        setDarkMode(true);
-      } else {
-        // If neither system prefers dark mode nor dark mode toggle is on, set light mode
-        console.log("!e.matches && !darkMode");
-        // document.body.classList.toggle("dark-mode");
-        setDarkMode(false);
+        setLightMode(false);
+        //FOUC on this
+        document.body.classList.add("dark-mode");
       }
-    };
 
-    darkModeMediaQuery.addEventListener("change", updateDarkMode);
+      const darkModeMediaQuery = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      );
+      //v This makes sure it does not do anything if there are no events
+      const updateDarkMode = (e: MediaQueryListEvent) => {
+        console.log("e.matches");
+        console.log(e.matches);
+        console.log("lightMode");
+        console.log(lightMode);
+        console.log("darkMode");
+        console.log(darkMode);
+        if (e.matches && lightMode && !darkMode) {
+          console.log("e.matches && lightMode && !darkMode");
+          document.body.classList.toggle("dark-mode");
+          setLightMode(false);
+          setDarkMode(true);
+        } else if (!e.matches && lightMode && !darkMode) {
+          console.log("!e.matches && lightMode && !darkMode");
+          document.body.classList.toggle("dark-mode");
+          setDarkMode(false);
+          setLightMode(true);
+        } else if (!e.matches && !lightMode && darkMode) {
+          console.log("!e.matches && !lightMode && darkMode");
+          document.body.classList.toggle("dark-mode");
+          setDarkMode(false);
+          setLightMode(true);
+        } else if (e.matches && darkMode && !lightMode) {
+          console.log("e.matches && darkMode && !lightMode");
+          document.body.classList.toggle("dark-mode");
+          setLightMode(false);
+          setDarkMode(true);
+        } else if (!e.matches && darkMode) {
+          console.log("!e.matches && darkMode");
+          document.body.classList.toggle("dark-mode");
+          setLightMode(true);
+          setDarkMode(false);
+        }
+      };
 
-    return () => {
-      darkModeMediaQuery.removeEventListener("change", updateDarkMode);
-    };
-  },[]);
+      darkModeMediaQuery.addEventListener("change", updateDarkMode);
+
+      return () => {
+        darkModeMediaQuery.removeEventListener("change", updateDarkMode);
+      };
+    }
+  }, [listenToWindowMedia]);
 
   //light mode dark mode
   const lightIcon = document.getElementById("light-icon");
   const darkIcon = document.getElementById("dark-icon");
-
-  // let darkMode = window.matchMedia("(prefer-color-scheme: dark)").matches;
-  // let windowsDarkMode = {window.matchMedia("(prefer-color-scheme: dark)").matches};
-  // setDarkMode(window.matchMedia("(prefer-color-scheme: dark)").matches);
 
   if (darkMode) {
     lightIcon?.setAttribute("display", "block");
@@ -99,20 +108,17 @@ const App: React.FC = () => {
     lightIcon?.setAttribute("display", "none");
     darkIcon?.setAttribute("display", "block");
   }
-  //lightIcon is set to none
   const toggleDarkMode = () => {
-    // darkMode = !darkMode;
-    // setDarkMode((prevDarkMode) => !prevDarkMode);
-    // setInitialLoad(false);
-    // document.body.classList.toggle("dark-mode");
-    // document.body.classList.toggle("dark-mode");
+    setListenToWindowMedia(false);
     document.body.classList.toggle("dark-mode");
     if (darkMode) {
       setDarkMode(false);
+      setLightMode(true);
       lightIcon?.setAttribute("display", "block");
       darkIcon?.setAttribute("display", "none");
     } else {
       setDarkMode(true);
+      setLightMode(false);
       lightIcon?.setAttribute("display", "none");
       darkIcon?.setAttribute("display", "block");
     }
@@ -169,7 +175,8 @@ const App: React.FC = () => {
           onClick={() => {
             setFilter(null);
             setDarkMode(darkMode);
-            setInitialLoad(false);
+            setLightMode(lightMode);
+            setListenToWindowMedia(listenToWindowMedia);
           }}
         >
           All
@@ -179,7 +186,8 @@ const App: React.FC = () => {
           onClick={() => {
             setFilter("Frontend");
             setDarkMode(darkMode);
-            setInitialLoad(false);
+            setLightMode(lightMode);
+            setListenToWindowMedia(listenToWindowMedia);
           }}
         >
           Frontend
@@ -189,7 +197,8 @@ const App: React.FC = () => {
           onClick={() => {
             setFilter("Backend");
             setDarkMode(darkMode);
-            setInitialLoad(false);
+            setLightMode(lightMode);
+            setListenToWindowMedia(listenToWindowMedia);
           }}
         >
           Backend
@@ -210,3 +219,5 @@ const App: React.FC = () => {
 };
 
 export default App;
+
+// ^ Stable and welll working code
