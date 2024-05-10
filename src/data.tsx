@@ -39,6 +39,14 @@ const myVideos = [
     Year: "2024",
     Link: "https://www.youtube.com/watch?v=jCScjzA2rzg&ab_channel=LinnKhantThuya",
   },
+  {
+    Title: "SAML Tutorial",
+    Channel: "Daphne Nea",
+    Thumbnail: "src/assets/SAML Thumbnail.png",
+    Type: "Backend",
+    Year: "2024",
+    Link: "https://youtu.be/cK52HaVsqp0?si=o9p3eV_aXQ_hjeJv",
+  },
 ];
 
 export default myVideos;
