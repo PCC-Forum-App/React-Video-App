@@ -4,8 +4,6 @@ Knowledge Nexus Example Output
 
 <img src="https://github.com/czLad/czLad/assets/111596851/d36dc586-56e2-4ee8-b6d8-275896d427a4" alt="Knowledge Nexus" width="640" height="360"/>
 
-# Vite + React + TypeScript Project
-
 This project is a React application configured with TypeScript and built using Vite, providing a fast development environment and modern module resolution. The project follows strict TypeScript rules and includes bundling optimizations for production.
 
 ## Table of Contents
