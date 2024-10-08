@@ -2,7 +2,7 @@
 
 Knowledge Nexus Example Output
 
-<img src="https://github.com/czLad/czLad/assets/111596851/d36dc586-56e2-4ee8-b6d8-275896d427a4" alt="Knowledge Nexus" width=480" height="270"/>
+<img src="https://github.com/czLad/czLad/assets/111596851/d36dc586-56e2-4ee8-b6d8-275896d427a4" alt="Knowledge Nexus" width="480" height="270"/>
 
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
