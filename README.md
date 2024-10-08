@@ -19,7 +19,7 @@ Knowledge Nexus Example Output
 To get started with this project, ensure you have [Node.js](https://nodejs.org/) installed. Then, clone the repository and install the dependencies:
 
 ```bash
-git clone https://github.com/your-username/your-repository.git
+git clone https://github.com/PCC-Forum-App/React-Video-App.git
 cd your-repository
 npm install
 ```
